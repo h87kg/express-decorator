@@ -5,7 +5,7 @@ import * as cookieParser from "cookie-parser";
 import { Param, getClazz } from './decorator'
 
 /**
- * Extract paramters from request.
+ * Extract parameters from request.
  */
 function extractParameters(req, res, params: Param[]) {
     let args = [];
@@ -32,7 +32,7 @@ function extractParameters(req, res, params: Param[]) {
  * Register Service Class.
  * 
  * ```
- * RegisterService(express, [servies])
+ * RegisterService(express, [services])
  * ```
  */
 export function RegisterService(app, serviceClazzes: any[]) {
@@ -47,7 +47,7 @@ export function RegisterService(app, serviceClazzes: any[]) {
         for (const methodName in routes) {
             let methodMeta = routes[methodName];
             let httpMethod = methodMeta.httpMethod;
-            let midwares = methodMeta.midwares;
+            let middlewares = methodMeta.middlewares;
 
             // express router callback
             let fn = (req, res, next) => {
@@ -67,14 +67,14 @@ export function RegisterService(app, serviceClazzes: any[]) {
 
             // register sub route
             let params: any[] = [methodMeta.subUrl];
-            midwares && (params = params.concat(midwares));
+            middlewares && (params = params.concat(middlewares));
             params.push(fn);
             router[httpMethod].apply(router, params);
         }
 
-        // regiser base router.
+        // register base router.
         let params: any[] = [meta.baseUrl, bodyParser.json(), cookieParser()];
-        meta.midwares && (params = params.concat(meta.midwares));
+        meta.middlewares && (params = params.concat(meta.middlewares));
         params.push(router);
         app.use.apply(app, params);
     })

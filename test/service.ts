@@ -1,19 +1,19 @@
 import { Path, GET, POST, DELETE, PUT, PathParam, QueryParam, FormParam, CookieParam, HeaderParam, Request, Response } from '../src/main'
 
-function testMidware1(req, res, next) {
+function testMiddleware1(req, res, next) {
     req.body.test1 = "test1"
     next();
 }
 
-function testMidware2(req, res, next) {
+function testMiddleware2(req, res, next) {
     req.body.test2 = "test2"
     next();
 }
 
-@Path('/user', [testMidware1])
+@Path('/user', [testMiddleware1])
 export class TestService {
 
-    @GET('/:id', [testMidware2])
+    @GET('/:id', [testMiddleware2])
     list( @PathParam('id') id: string, @QueryParam('name') name: string, @Request req) {
         return [id, name, req.body.test1, req.body.test2]
     }

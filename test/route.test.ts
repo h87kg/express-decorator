@@ -1,14 +1,14 @@
 import { http } from './http'
 
 
-test('01.Http get reqeust', () => {
+test('01.Http get request', () => {
     http.get('/user/xxx?name=tom').then(res => {
 
         expect(JSON.parse(res)).toEqual(["xxx", "tom", "test1", "test2"])
     })
 });
 
-test('02.Http delete reqeust', () => {
+test('02.Http delete request', () => {
     http.delete('/user/xxx').then(res => {
         expect(res).toEqual("xxx")
     }, (err) => {
@@ -16,7 +16,7 @@ test('02.Http delete reqeust', () => {
     })
 });
 
-test('03.Http post reqeust', () => {
+test('03.Http post request', () => {
     let user = { name: 'wang', age: 20 };
     http.post('/user', { user: user }).then(res => {
         expect(JSON.parse(res)).toEqual({ name: "wang", age: 20 })
@@ -25,7 +25,7 @@ test('03.Http post reqeust', () => {
     })
 });
 
-test('04.Http put reqeust', () => {
+test('04.Http put request', () => {
     let user = { name: 'wang', age: 20 };
     http.put('/user', { user: user }).then(res => {
         expect(JSON.parse(res)).toEqual({ name: "wang", age: 20 })

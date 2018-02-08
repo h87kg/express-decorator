@@ -8,7 +8,7 @@ export type Method = {
     subUrl: string,
     httpMethod: string,
     params: Param[],
-    midwares: Function[],
+    middlewares: Function[],
 }
 
 export type Router = {
@@ -17,7 +17,7 @@ export type Router = {
 export type Clazz = {
     baseUrl: string,
     routes: Router,
-    midwares: Function[];
+    middlewares: Function[];
 }
 
 export let getClazz = (target): Clazz => {
@@ -29,7 +29,7 @@ export let getMethod = (target, methodName): Method => {
     let methodMeta = meta.routes[methodName] || (meta.routes[methodName] = {
         subUrl: '',
         httpMethod: '',
-        midwares: [],
+        middlewares: [],
         params: []
     });
 
@@ -44,22 +44,22 @@ export let getMethod = (target, methodName): Method => {
  * }
  * 
  */
-export function Path(baseUrl: string, midwares?: Function[]) {
+export function Path(baseUrl: string, middlewares?: Function[]) {
     return function (target) {
         let meta = getClazz(target.prototype);
         meta.baseUrl = baseUrl;
-        meta.midwares = midwares;
+        meta.middlewares = middlewares;
     }
 }
 
-let MethodFactory = (httpMehod: string) => {
-    return (url: string, midwares?: any[]) => {
+let MethodFactory = (httpMethod: string) => {
+    return (url: string, middlewares?: any[]) => {
         return (target, methodName: string, descriptor: PropertyDescriptor) => {
 
             let meta = getMethod(target, methodName);
             meta.subUrl = url;
-            meta.httpMethod = httpMehod;
-            meta.midwares = midwares;
+            meta.httpMethod = httpMethod;
+            meta.middlewares = middlewares;
 
             // Sort parameter by param index
             meta.params.sort((param1: Param, param2: Param) => param1.index - param2.index);

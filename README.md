@@ -18,10 +18,10 @@ npm install express-decorator
 
 Create firsr restfult service.
 ```javascript
-@Path('/user', [ testMidware2 ])
+@Path('/user', [ testMiddleware2 ])
 export class UserService {
 
-    @GET('/:id', [ testMidware1 ])
+    @GET('/:id', [ testMiddleware1 ])
     list( @PathParam('id') id: string, @QueryParam('name') name: string) {
         return [id, name]
     }
@@ -37,7 +37,7 @@ export class UserService {
     }
 
     @PUT('')
-    update( @FormParam('user') user, @Response response, @Requst request) {
+    update( @FormParam('user') user, @Response response, @Request request) {
         ...
         return user;
     }
@@ -56,12 +56,12 @@ export class UserService {
 } 
 
 // midware
-function testMidware1(req, res, next) {
+function testMiddleware1(req, res, next) {
     req.body.test1 = "test1"
     next();
 }
 
-function testMidware2(req, res, next) {
+function testMiddleware2(req, res, next) {
     req.body.test2 = "test2"
     next();
 }
@@ -87,16 +87,16 @@ var server = app.listen(3000, function () {
 ```
 
 ## API
-- `Path(baseUrl: string, midwares?:Funtion[])`
-- `GET(subUrl: string, midwares?:Funtion[])`
-- `DELETE(subUrl: string, midwares?:Funtion[])`
-- `POST(subUrl: string, midwares?:Funtion[])`
-- `DELETE(subUrl: string, midwares?:Funtion[])`
+- `Path(baseUrl: string, middlewares?:Funtion[])`
+- `GET(subUrl: string, middlewares?:Funtion[])`
+- `DELETE(subUrl: string, middlewares?:Funtion[])`
+- `POST(subUrl: string, middlewares?:Funtion[])`
+- `DELETE(subUrl: string, middlewares?:Funtion[])`
 - `PathParam(paramName: string)`
 - `QueryParam(paramName: string)`
 - `FormParam(paramName: string)`
 - `CookieParam(paramName: string)`
 - `HeaderParam(paramName: string)`
-- `Reqeust`
+- `Request`
 - `Response`
 - `RegisterService(expressInstance, services:any[])`
